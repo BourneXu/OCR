@@ -1,6 +1,6 @@
 natsort==6.2.0
 lmdb==0.98
-nltk==3.4.4
+nltk==3.4.5
 scikit_image==0.15.0
 torchvision==0.4.2
 six==1.12.0
