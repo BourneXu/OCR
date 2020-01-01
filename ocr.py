@@ -9,6 +9,7 @@ from text_recognize.recognition import Recognition
 class OCR:
     def __init__(self, opt):
         self.opt = opt
+        os.makedirs(opt.detect_result_folder, exist_ok=True)
         self.detection = Detection(
             trained_model=opt.detect_trained_model, result_folder=opt.detect_result_folder
         )
@@ -30,10 +31,10 @@ class OCR:
 if __name__ == "__main__":
     path_abs = os.path.dirname(os.path.abspath(__file__))
     opt = SimpleNamespace()
-    opt.detect_trained_model = f"{path_abs}/text_detect/craft_mlt_25k.pth"
-    opt.detect_result_folder = f"{path_abs}/images/"
-    opt.recognize_image_folder = f"{path_abs}/images/"
-    opt.recognize_saved_model = f"{path_abs}/text_recognize/TPS-ResNet-BiLSTM-Attn.pth"
+    opt.detect_trained_model = f"{path_abs}/models/craft_mlt_25k.pth"
+    opt.detect_result_folder = f"{path_abs}/images/box/"
+    opt.recognize_image_folder = f"{path_abs}/images/box/"
+    opt.recognize_saved_model = f"{path_abs}/models/TPS-ResNet-BiLSTM-Attn.pth"
     opt.recognize_Transformation = "TPS"
     opt.recognize_FeatureExtraction = "ResNet"
     opt.recognize_SequenceModeling = "BiLSTM"
