@@ -63,7 +63,8 @@ def saveResult(img_file, img, boxes, dirname="./result/", verticals=None, texts=
         rect = cv2.boundingRect(poly.reshape((-1, 1, 2)))
         x, y, w, h = rect
         croped = img[y : y + h, x : x + w].copy()
-        cv2.imwrite(dirname + f"{filename}_box_{i}.jpg", croped)
+        if croped.size:
+            cv2.imwrite(dirname + f"{filename}_box_{i}.jpg", croped)
         locations[dirname + f"{filename}_box_{i}.jpg"] = [y, y + h, x, x + w]
         ## polylines
         # cv2.polylines(img, [poly.reshape((-1, 1, 2))], True, color=(0, 0, 255), thickness=2)
@@ -93,7 +94,8 @@ def saveResult(img_file, img, boxes, dirname="./result/", verticals=None, texts=
                 (0, 255, 255),
                 thickness=1,
             )
-    logger.info(f"{i + 1} boxes of {filename} saved.")
+    if len(boxes):
+        logger.info(f"{i + 1} boxes of {filename} saved.")
     return len(boxes), locations
     # Save result image
     # cv2.imwrite(res_img_file, img)

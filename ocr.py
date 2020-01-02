@@ -23,6 +23,10 @@ class OCR:
         )
 
     def run(self, image_path):
+        try:
+            os.system("rm ./images/box/*")
+        except:
+            pass
         num, locations = self.detection.TextDetect(image_path)
         result = self.recognition.TextRecognize()
         for k, v in result.items():
@@ -45,5 +49,6 @@ if __name__ == "__main__":
     opt.test_image = f"{path_abs}/text_detect/images/example.jpg"
 
     test = OCR(opt)
-    r = test.run(opt.test_image)
+    # r = test.run(opt.test_image)
+    r = test.run("/home/bourne/Workstation/AntiGPS/results/images/---C2evFtaqagE-9Bb66SA.jpg")
     print(r)

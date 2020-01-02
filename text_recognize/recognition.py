@@ -169,7 +169,10 @@ class Recognition:
                     # remove processed img
                     os.remove(img_name)
                     # print(f"{img_name:25s}\t{pred:25s}\t{confidence_score:0.4f}")
-        logger.info(f"{img_name.split('_box_')[0]} recognized, total {len(results)}")
+        try:
+            logger.info(f"{img_name.split('_box_')[0]} recognized, total {len(results)}")
+        except:
+            logger.warning("No image boxes")
         return results
 
 

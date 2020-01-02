@@ -14,11 +14,8 @@ app.secret_key = os.urandom(12)
 
 @app.route("/ocr", methods=["POST"])
 def ocr():
-    image = request.get_data()
-    img = Image.open(io.BytesIO(image))
-    img.save("./images/tmp.jpg", format="jpg")
-    r = engine.run("./images/tmp.jpg")
-    os.remove("./images/tmp.jpg")
+    image_path = request.json["image_path"]
+    r = engine.run(image_path)
     return jsonify(r)
 
 
