@@ -23,9 +23,12 @@ class OCR:
         )
 
     def run(self, image_path):
-        num = self.detection.TextDetect(image_path)
+        num, locations = self.detection.TextDetect(image_path)
         result = self.recognition.TextRecognize()
-        return result
+        for k, v in result.items():
+            v["location"] = locations[k]
+            result[k] = v
+        return list(result.values())
 
 
 if __name__ == "__main__":

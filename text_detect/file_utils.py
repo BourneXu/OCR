@@ -55,6 +55,7 @@ def saveResult(img_file, img, boxes, dirname="./result/", verticals=None, texts=
     if not os.path.isdir(dirname):
         os.mkdir(dirname)
 
+    locations = {}
     for i, box in enumerate(boxes):
         poly = np.array(box).astype(np.int32).reshape((-1))
         poly = poly.reshape(-1, 2)
@@ -63,7 +64,7 @@ def saveResult(img_file, img, boxes, dirname="./result/", verticals=None, texts=
         x, y, w, h = rect
         croped = img[y : y + h, x : x + w].copy()
         cv2.imwrite(dirname + f"{filename}_box_{i}.jpg", croped)
-
+        locations[dirname + f"{filename}_box_{i}.jpg"] = [y, y + h, x, x + w]
         ## polylines
         # cv2.polylines(img, [poly.reshape((-1, 1, 2))], True, color=(0, 0, 255), thickness=2)
         ptColor = (0, 255, 255)
@@ -93,7 +94,7 @@ def saveResult(img_file, img, boxes, dirname="./result/", verticals=None, texts=
                 thickness=1,
             )
     logger.info(f"{i + 1} boxes of {filename} saved.")
-    return len(boxes)
+    return len(boxes), locations
     # Save result image
     # cv2.imwrite(res_img_file, img)
 
