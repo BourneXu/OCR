@@ -22,17 +22,38 @@ class OCR:
             Prediction=opt.recognize_Prediction,
         )
 
+    def __check_folder(self):
+        if len(os.listdir(self.opt.detect_result_folder)):
+            os.system(f'rm {self.opt.detect_result_folder.rstrip("/")}/*')
+
     def run(self, image_path):
-        try:
-            os.system("rm ./images/box/*")
-        except:
-            pass
-        num, locations = self.detection.TextDetect(image_path)
+        self.__check_folder()
+        self.num, self.locations, self.image_size = self.detection.TextDetect(image_path)
         result = self.recognition.TextRecognize()
         for k, v in result.items():
-            v["location"] = locations[k]
+            v["location"] = self.locations[k]
             result[k] = v
-        return list(result.values())
+        return {
+            "height": self.image_size[0],
+            "width": self.image_size[1],
+            "text": list(result.values()),
+        }
+
+    def detect_only(self, image_path):
+        self.__check_folder()
+        self.num, self.locations, self.image_size = self.detection.TextDetect(image_path)
+        return {"detect_result_folder": self.opt.detect_result_folder}
+
+    def recognize_only(self):
+        result = self.recognition.TextRecognize()
+        for k, v in result.items():
+            v["location"] = self.locations[k]
+            result[k] = v
+        return {
+            "height": self.image_size[0],
+            "width": self.image_size[1],
+            "text": list(result.values()),
+        }
 
 
 if __name__ == "__main__":
@@ -50,5 +71,5 @@ if __name__ == "__main__":
 
     test = OCR(opt)
     # r = test.run(opt.test_image)
-    r = test.run("/home/bourne/Workstation/AntiGPS/results/images/---C2evFtaqagE-9Bb66SA.jpg")
+    r = test.run("/home/bourne/Workstation/AntiGPS/results/google_img/8323675147878602725_2.jpg")
     print(r)

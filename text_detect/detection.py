@@ -136,11 +136,11 @@ class Detection:
             self.refine_net,
         )
 
-        num = file_utils.saveResult(
+        num, location = file_utils.saveResult(
             image_path, image[:, :, ::-1], polys, dirname=self.result_folder
         )
         logger.info(f"Saved to {self.result_folder}, {image_path} done")
-        return num
+        return num, location, image.shape
 
     def test_net(
         self, net, image, text_threshold, link_threshold, low_text, cuda, poly, refine_net=None

@@ -19,6 +19,19 @@ def ocr():
     return jsonify(r)
 
 
+@app.route("/detect", methods=["POST"])
+def detect():
+    image_path = request.json["image_path"]
+    r = engine.detect_only(image_path)
+    return jsonify(r)
+
+
+@app.route("/recognize", methods=["GET"])
+def recognize():
+    r = engine.recognize_only()
+    return jsonify(r)
+
+
 if __name__ == "__main__":
     path_abs = os.path.dirname(os.path.abspath(__file__))
     opt = SimpleNamespace()
