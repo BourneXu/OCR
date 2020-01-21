@@ -29,6 +29,12 @@ class OCR:
     def run(self, image_path):
         self.__check_folder()
         self.num, self.locations, self.image_size = self.detection.TextDetect(image_path)
+        if not self.num:
+            return {
+                "height": self.image_size[0],
+                "width": self.image_size[1],
+                "text": [],
+            }
         result = self.recognition.TextRecognize()
         for k, v in result.items():
             v["location"] = self.locations[k]

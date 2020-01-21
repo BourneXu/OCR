@@ -139,7 +139,10 @@ class Detection:
         num, location = file_utils.saveResult(
             image_path, image[:, :, ::-1], polys, dirname=self.result_folder
         )
-        logger.info(f"Saved to {self.result_folder}, {image_path} done")
+        if not num:
+            logger.warning("No image box found")
+        else:
+            logger.info(f"Saved to {self.result_folder}, {image_path} done")
         return num, location, image.shape
 
     def test_net(
